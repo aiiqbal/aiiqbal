@@ -209,6 +209,47 @@
   footer{border-top:1px solid var(--line);padding:30px 0;
     font-family:var(--mono);font-size:12px;color:var(--text-faint)}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  /* ---- knowledge base ---- */
+  .kb-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+  .kb-tab{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:var(--panel);
+    border:1px solid var(--line);border-radius:8px;padding:8px 15px;cursor:pointer;transition:.2s}
+  .kb-tab:hover{border-color:var(--signal);color:var(--text)}
+  .kb-tab.active{background:var(--signal);color:#1a1205;border-color:var(--signal);font-weight:600}
+  .kb-grid{display:flex;flex-direction:column;gap:14px}
+  .kb-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .2s}
+  .kb-card.hidden{display:none}
+  .kb-head{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;user-select:none}
+  .kb-head:hover{background:var(--panel-2)}
+  .kb-cat{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--signal);
+    border:1px solid var(--line);border-radius:5px;padding:4px 8px;white-space:nowrap}
+  .kb-title{font-family:var(--cond);font-weight:600;font-size:20px;color:#fff;flex:1;line-height:1.15}
+  .kb-toggle{font-family:var(--mono);font-size:20px;color:var(--text-faint);transition:.25s;line-height:1}
+  .kb-card.open .kb-toggle{transform:rotate(45deg);color:var(--signal)}
+  .kb-card.open{border-color:var(--signal)}
+  .kb-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+  .kb-card.open .kb-body{max-height:4000px}
+  .kb-inner{padding:2px 24px 26px;border-top:1px solid var(--line-soft)}
+  .kb-inner > p{font-size:14px;color:var(--text-dim);margin:16px 0}
+  .kb-inner h4{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--signal);margin:20px 0 12px}
+  .kb-steps{list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:11px;margin:4px 0;padding:0}
+  .kb-steps li{position:relative;padding-left:40px;font-size:14px;color:var(--text);line-height:1.5}
+  .kb-steps li b{color:#fff;font-weight:600}
+  .kb-steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:-2px;width:26px;height:26px;
+    border-radius:7px;background:var(--panel-2);border:1px solid var(--line);color:var(--signal);font-family:var(--mono);
+    font-size:12px;display:flex;align-items:center;justify-content:center}
+  .kb-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+  .kb-tags .tag{font-family:var(--mono);font-size:11px;color:var(--text-dim);border:1px solid var(--line);border-radius:5px;padding:3px 9px}
+  .kb-note{font-family:var(--mono);font-size:12px;color:var(--text-faint);margin-top:18px;border-left:2px solid var(--signal);padding-left:12px}
+  .kb-diagram{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+
+  /* ---- project deep-dive lists ---- */
+  .kb-checks{list-style:none;display:flex;flex-direction:column;gap:9px;margin:6px 0;padding:0}
+  .kb-checks li{position:relative;padding-left:28px;font-size:14px;color:var(--text);line-height:1.55}
+  .kb-checks li::before{content:"\2713";position:absolute;left:0;top:0;color:var(--signal-2);font-weight:700;font-family:var(--mono)}
+  .kb-checks.fix li::before{content:"\2691";color:var(--signal)}
+  .kb-checks li b{color:#fff;font-weight:600}
+  .kb-sub{font-size:13px;color:var(--text-faint);font-family:var(--mono);margin:-6px 0 6px}
 </style>
 </head>
 <body>
@@ -221,6 +262,8 @@
       <a href="#capabilities">capabilities</a>
       <a href="#timeline">timeline</a>
       <a href="#work">work</a>
+      <a href="#projects">projects</a>
+      <a href="#playbooks">playbooks</a>
       <a href="#repos">repos</a>
       <a href="#contact">contact</a>
     </nav>
@@ -410,11 +453,273 @@
   </div>
 </section>
 
+<!-- ===== PROJECT DEEP-DIVES ===== -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx">04</span>
+      <span class="sec-title">Project deep-dives</span>
+      <span class="sec-line"></span>
+    </div>
+    <div class="note" style="margin-bottom:24px">↓ Full project write-ups — the problem, the architecture, what I owned, the real issues I solved, and the outcome. Tap to expand.</div>
+    <div class="kb-grid">
+      <div class="kb-card" data-cat="project">
+        <div class="kb-head">
+          <span class="kb-cat">HPC · Engineering</span>
+          <span class="kb-title">Thermal HPC cluster deployment — 12-node ANSYS Fluent CFD</span>
+          <span class="kb-toggle">+</span>
+        </div>
+        <div class="kb-body"><div class="kb-inner">
+        <h4>Business problem</h4>
+        <p>The thermal engineering team needed a managed <b>ANSYS Fluent</b> environment for large CFD simulations. The jobs were far too big for individual workstations and required dedicated HPC resources — a job scheduler, shared storage mounted across the workstations, head node and all compute nodes, and a way to run the ANSYS Fluent GUI on the engineers’ own GPU-equipped Linux workstations via remote desktop.</p>
+        <h4>Architecture</h4>
+        <div class="kb-diagram"><svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;font-family:var(--mono)">
+  <!-- workstation -->
+  <rect x="290" y="14" width="180" height="52" rx="8" fill="var(--panel-2)" stroke="var(--signal)"/>
+  <text x="380" y="36" text-anchor="middle" fill="#fff" font-size="12">Engineer Workstation (Linux + GPU)</text>
+  <text x="380" y="52" text-anchor="middle" fill="var(--text-faint)" font-size="9">Linux · GPU · renders Fluent via NoMachine/XRDP</text>
+  <path d="M380 66 L380 100" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+  <!-- head node -->
+  <rect x="235" y="100" width="290" height="72" rx="9" fill="var(--panel)" stroke="var(--signal-3)"/>
+  <text x="380" y="124" text-anchor="middle" fill="#fff" font-size="13">Head / Login Node</text>
+  <text x="380" y="143" text-anchor="middle" fill="var(--text-dim)" font-size="10">PBS Pro scheduler · job dispatch</text>
+  <text x="380" y="159" text-anchor="middle" fill="var(--text-dim)" font-size="10">FlexLM license server (ANSYS)</text>
+  <!-- shared storage -->
+  <rect x="575" y="100" width="160" height="72" rx="9" fill="var(--panel)" stroke="var(--line)"/>
+  <text x="655" y="130" text-anchor="middle" fill="var(--text)" font-size="12">Shared Storage</text>
+  <text x="655" y="146" text-anchor="middle" fill="var(--text-faint)" font-size="9">parallel filesystem</text>
+  <text x="655" y="160" text-anchor="middle" fill="var(--text-faint)" font-size="8">workstations · head · all nodes</text>
+  <path d="M525 136 L575 136" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+  <path d="M655 172 L655 215 L80 215" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+  <!-- dispatch bus -->
+  <path d="M380 172 L380 215" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+  <text x="92" y="208" fill="var(--signal)" font-size="9">job dispatch · MPI</text>
+  <path d="M80 215 L80 240" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="30" y="240" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="80" y="262" text-anchor="middle" fill="var(--text)" font-size="11">Node01</text>
+<text x="80" y="277" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M80 286 L80 300" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="30" y="300" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="80" y="322" text-anchor="middle" fill="var(--text)" font-size="11">Node07</text>
+<text x="80" y="337" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M197 215 L197 240" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="147" y="240" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="197" y="262" text-anchor="middle" fill="var(--text)" font-size="11">Node02</text>
+<text x="197" y="277" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M197 286 L197 300" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="147" y="300" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="197" y="322" text-anchor="middle" fill="var(--text)" font-size="11">Node08</text>
+<text x="197" y="337" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M314 215 L314 240" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="264" y="240" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="314" y="262" text-anchor="middle" fill="var(--text)" font-size="11">Node03</text>
+<text x="314" y="277" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M314 286 L314 300" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="264" y="300" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="314" y="322" text-anchor="middle" fill="var(--text)" font-size="11">Node09</text>
+<text x="314" y="337" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M431 215 L431 240" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="381" y="240" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="431" y="262" text-anchor="middle" fill="var(--text)" font-size="11">Node04</text>
+<text x="431" y="277" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M431 286 L431 300" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="381" y="300" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="431" y="322" text-anchor="middle" fill="var(--text)" font-size="11">Node10</text>
+<text x="431" y="337" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M548 215 L548 240" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="498" y="240" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="548" y="262" text-anchor="middle" fill="var(--text)" font-size="11">Node05</text>
+<text x="548" y="277" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M548 286 L548 300" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="498" y="300" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="548" y="322" text-anchor="middle" fill="var(--text)" font-size="11">Node11</text>
+<text x="548" y="337" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M665 215 L665 240" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="615" y="240" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="665" y="262" text-anchor="middle" fill="var(--text)" font-size="11">Node06</text>
+<text x="665" y="277" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+<path d="M665 286 L665 300" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+<rect x="615" y="300" width="100" height="46" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+<text x="665" y="322" text-anchor="middle" fill="var(--text)" font-size="11">Node12</text>
+<text x="665" y="337" text-anchor="middle" fill="var(--text-faint)" font-size="9">compute</text>
+
+  <text x="380" y="382" text-anchor="middle" fill="var(--text-faint)" font-size="10">RHEL · PBS Pro · MPI · ANSYS Fluent · FlexLM</text>
+</svg></div>
+        <h4>My responsibilities</h4>
+        <ul class="kb-checks">
+          <li>Installed and standardized <b>RHEL</b> across the head node and all compute nodes</li>
+          <li>Configured the <b>PBS Pro</b> scheduler — queues, fair-share, and job distribution across the cluster</li>
+          <li>Integrated <b>FlexLM</b> licensing for ANSYS</li>
+          <li>Installed and configured <b>ANSYS Fluent</b></li>
+          <li>Built the <b>remote-visualization path</b> so the Fluent GUI renders on the engineers’ GPU-equipped Linux workstations (the cluster nodes are compute-only)</li>
+          <li>Enabled <b>NoMachine / XRDP</b> for remote engineer sessions</li>
+        </ul>
+        <h4>Issues solved</h4>
+        <ul class="kb-checks fix">
+          <li><b>XRDP black screen</b> — corrected the session/display-manager startup so the remote desktop rendered instead of a blank screen</li>
+          <li><b>Wayland / Xorg conflicts</b> — forced an Xorg session for compatibility with the GPU and remote-viz tooling</li>
+          <li><b>GLIBCXX library mismatch</b> — aligned the libstdc++ / toolchain version to what ANSYS required</li>
+          <li><b>MPI bootstrap failures</b> — fixed inter-node launcher / SSH and fabric config so MPI ranks start cleanly across all nodes</li>
+          <li><b>FlexLM connectivity</b> — opened the correct license ports and pointed clients at the license server</li>
+        </ul>
+        <h4>Outcome</h4>
+        <ul class="kb-checks">
+          <li><b>12-node cluster fully operational</b></li>
+          <li>Engineers running <b>production CFD jobs</b> end to end — submit, compute, and visualize remotely</li>
+        </ul>
+        <div class="kb-note">Sanitized reference — no site, hostnames, or project specifics.</div>
+        <div class="kb-tags"><span class="tag">RHEL</span><span class="tag">PBS Pro</span><span class="tag">ANSYS Fluent</span><span class="tag">FlexLM</span><span class="tag">NoMachine / XRDP</span><span class="tag">MPI</span><span class="tag">NVIDIA GPU</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KNOWLEDGE BASE ===== -->
+<section id="playbooks">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx">05</span>
+      <span class="sec-title">Playbooks &amp; reference architectures</span>
+      <span class="sec-line"></span>
+    </div>
+    <div class="note" style="margin-bottom:24px">↓ Living proof, not just claims — sanitized, reusable procedures and reference designs drawn from real work. No client data, by design. Tap any card to expand.</div>
+    <div class="kb-tabs">
+      <button class="kb-tab active" data-cat="all">All</button>
+      <button class="kb-tab" data-cat="security">Security &amp; Compliance</button>
+      <button class="kb-tab" data-cat="migration">Migrations</button>
+      <button class="kb-tab" data-cat="cloud">Cloud &amp; IaC</button>
+      <button class="kb-tab" data-cat="platform">Platform &amp; HPC</button>
+    </div>
+    <div class="kb-grid">
+      <div class="kb-card" data-cat="security">
+        <div class="kb-head">
+          <span class="kb-cat">Security &amp; Compliance</span>
+          <span class="kb-title">Hardening RHEL to the CIS Benchmark (Level 1)</span>
+          <span class="kb-toggle">+</span>
+        </div>
+        <div class="kb-body"><div class="kb-inner">
+        <p>How I take a Red Hat estate from an unknown security posture to a measured, audit-ready CIS baseline — and keep it there.</p>
+        <h4>Approach</h4>
+        <ol class="kb-steps">
+          <li><b>Baseline &amp; scope</b> — inventory hosts, pick the CIS profile (Level 1 for servers), and record justified exceptions with named owners.</li>
+          <li><b>Scan first</b> — run OpenSCAP against the CIS profile to get a measured starting score before touching anything.</li>
+          <li><b>Filesystem &amp; boot</b> — disable unused kernel modules/filesystems, set <code>nodev/nosuid/noexec</code> mount options, lock down bootloader permissions.</li>
+          <li><b>Services &amp; network</b> — remove unneeded packages/services, harden <code>sysctl</code> (redirects, IP forwarding), tighten firewalld zones.</li>
+          <li><b>SSH &amp; access</b> — key-only auth, no root login, approved Ciphers/MACs, idle timeout, and PAM password-quality + lockout policy.</li>
+          <li><b>Audit &amp; logging</b> — enable auditd with the CIS rule set, make logs immutable, and forward to the SIEM.</li>
+          <li><b>Automate &amp; enforce</b> — codify every control in an Ansible role, re-scan to prove remediation, and schedule drift detection.</li>
+          <li><b>Evidence</b> — export OpenSCAP reports mapped to controls as audit evidence.</li>
+        </ol>
+        <div class="kb-note">Same pattern maps cleanly to NIST 800-53 / DISA STIG profiles.</div>
+        <div class="kb-tags"><span class="tag">RHEL 8/9</span><span class="tag">CIS Benchmark</span><span class="tag">OpenSCAP</span><span class="tag">Ansible</span><span class="tag">auditd</span><span class="tag">SIEM</span></div>
+        </div></div>
+      </div>
+      <div class="kb-card" data-cat="migration">
+        <div class="kb-head">
+          <span class="kb-cat">Migrations</span>
+          <span class="kb-title">Zero-downtime SAN migration with Storage vMotion</span>
+          <span class="kb-toggle">+</span>
+        </div>
+        <div class="kb-body"><div class="kb-inner">
+        <p>Migrating a live VMware estate from an old SAN to a new one with no maintenance window — every VM moved online.</p>
+        <h4>Runbook</h4>
+        <ol class="kb-steps">
+          <li><b>Discover &amp; plan</b> — map every datastore → VM → LUN, capture capacity and IOPS, and confirm the target (zero downtime).</li>
+          <li><b>Stand up the new array</b> — provision LUNs, zone the fabric / configure iSCSI, and present storage to every host.</li>
+          <li><b>Network paths</b> — add dual-port 10GbE iSCSI NICs with multipathing; validate there is no single path before proceeding.</li>
+          <li><b>New datastores</b> — create and verify VMFS datastores on the new array across the whole cluster.</li>
+          <li><b>Live migrate</b> — Storage vMotion VMs in waves, lowest-risk first, watching latency and throughput throughout.</li>
+          <li><b>Validate</b> — confirm each VM is healthy on new storage; spot-check applications and databases.</li>
+          <li><b>Decommission</b> — unmount old datastores, remove stale paths/zoning, and return the old array.</li>
+        </ol>
+        <div class="kb-note">Run this way, the estate moves with zero user impact — everything stays online.</div>
+        <div class="kb-tags"><span class="tag">VMware</span><span class="tag">Storage vMotion</span><span class="tag">iSCSI / FC</span><span class="tag">Multipathing</span><span class="tag">SAN</span><span class="tag">Dell Compellent</span></div>
+        </div></div>
+      </div>
+      <div class="kb-card" data-cat="cloud">
+        <div class="kb-head">
+          <span class="kb-cat">Cloud &amp; IaC</span>
+          <span class="kb-title">Azure landing zone with Bicep</span>
+          <span class="kb-toggle">+</span>
+        </div>
+        <div class="kb-body"><div class="kb-inner">
+        <p>A secure, governed Azure landing zone expressed entirely as code — the reference design I deploy and harden.</p>
+        <div class="kb-diagram"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;font-family:var(--mono)">
+  <g stroke="var(--line)" stroke-width="1.5" fill="none">
+    <path d="M360 60 L360 84 M180 84 L540 84 M180 84 L180 108 M540 84 L540 108"/>
+  </g>
+  <rect x="280" y="22" width="160" height="38" rx="8" fill="var(--panel-2)" stroke="var(--signal)"/>
+  <text x="360" y="46" text-anchor="middle" fill="var(--signal)" font-size="12">MANAGEMENT GROUP</text>
+
+  <rect x="32" y="108" width="296" height="196" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+  <text x="52" y="132" fill="#fff" font-size="12">PROD SUBSCRIPTION</text>
+  <rect x="52" y="148" width="118" height="48" rx="7" fill="var(--panel-2)" stroke="var(--signal-3)"/>
+  <text x="111" y="170" text-anchor="middle" fill="var(--text)" font-size="11">HUB VNet</text>
+  <text x="111" y="185" text-anchor="middle" fill="var(--text-faint)" font-size="9">FW · Key Vault</text>
+  <g stroke="var(--line)" stroke-width="1.5" fill="none"><path d="M170 160 L196 160 M170 184 L196 220 M196 160 L196 244"/></g>
+  <rect x="196" y="146" width="112" height="28" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+  <text x="252" y="164" text-anchor="middle" fill="var(--text-dim)" font-size="10">spoke · app (NSG)</text>
+  <rect x="196" y="206" width="112" height="28" rx="6" fill="var(--panel-2)" stroke="var(--line)"/>
+  <text x="252" y="224" text-anchor="middle" fill="var(--text-dim)" font-size="10">spoke · data (NSG)</text>
+  <text x="52" y="288" fill="var(--signal-2)" font-size="10">Recovery Services Vault · backup</text>
+
+  <rect x="392" y="108" width="296" height="196" rx="10" fill="var(--panel)" stroke="var(--line-soft)"/>
+  <text x="412" y="132" fill="var(--text-dim)" font-size="12">NON-PROD SUBSCRIPTION</text>
+  <rect x="412" y="148" width="118" height="48" rx="7" fill="var(--panel-2)" stroke="var(--line)"/>
+  <text x="471" y="170" text-anchor="middle" fill="var(--text-dim)" font-size="11">HUB VNet</text>
+  <text x="471" y="185" text-anchor="middle" fill="var(--text-faint)" font-size="9">FW · Key Vault</text>
+  <g stroke="var(--line-soft)" stroke-width="1.5" fill="none"><path d="M530 160 L556 160 M530 184 L556 220 M556 160 L556 244"/></g>
+  <rect x="556" y="146" width="112" height="28" rx="6" fill="var(--panel-2)" stroke="var(--line-soft)"/>
+  <text x="612" y="164" text-anchor="middle" fill="var(--text-faint)" font-size="10">spoke · app (NSG)</text>
+  <rect x="556" y="206" width="112" height="28" rx="6" fill="var(--panel-2)" stroke="var(--line-soft)"/>
+  <text x="612" y="224" text-anchor="middle" fill="var(--text-faint)" font-size="10">spoke · data (NSG)</text>
+  <text x="412" y="288" fill="var(--text-faint)" font-size="10">auto-shutdown when idle</text>
+</svg></div>
+        <h4>Approach</h4>
+        <ol class="kb-steps">
+          <li><b>Governance</b> — management groups with separate prod / non-prod subscriptions; RBAC and Azure Policy applied at the group level.</li>
+          <li><b>Network</b> — hub-and-spoke VNets, NSGs per subnet, private endpoints; nothing exposed publicly by default.</li>
+          <li><b>Identity</b> — Entra ID SSO, least-privilege roles, and PIM for just-in-time elevation.</li>
+          <li><b>Secrets</b> — Key Vault for every secret; nothing hardcoded in templates or pipelines.</li>
+          <li><b>Infrastructure-as-code</b> — the whole zone in Bicep modules, deployed via CI/CD with what-if previews.</li>
+          <li><b>Protect</b> — Azure Backup (Recovery Services Vault) with tested file-level and whole-VM restore runbooks.</li>
+          <li><b>Cost</b> — scheduled auto-shutdown of non-prod and idle systems.</li>
+        </ol>
+        <div class="kb-note">Reference design — genericized, with no tenant or resource names.</div>
+        <div class="kb-tags"><span class="tag">Azure</span><span class="tag">Bicep / IaC</span><span class="tag">Entra ID</span><span class="tag">Key Vault</span><span class="tag">NSG</span><span class="tag">Recovery Services Vault</span></div>
+        </div></div>
+      </div>
+      <div class="kb-card" data-cat="platform">
+        <div class="kb-head">
+          <span class="kb-cat">Platform &amp; HPC</span>
+          <span class="kb-title">GPU-accelerated HPC cluster with PBS Pro</span>
+          <span class="kb-toggle">+</span>
+        </div>
+        <div class="kb-body"><div class="kb-inner">
+        <p>Standing up a GPU-accelerated HPC cluster engineers can actually use — including remote 3D visualization that standard remote-desktop tools can’t deliver.</p>
+        <h4>Design</h4>
+        <ol class="kb-steps">
+          <li><b>Topology</b> — login/head node plus CPU compute nodes, a shared parallel filesystem mounted across workstations/head/nodes, and AD-integrated auth (SSSD / Kerberos).</li>
+          <li><b>Scheduler</b> — PBS Pro with fair-share queues and separate GPU vs CPU partitions.</li>
+          <li><b>GPU remote viz</b> — engineers run the interactive GUI (CFD / FEA) on their own GPU-equipped Linux workstations, with the heavy compute running headless on the cluster.</li>
+          <li><b>Node imaging</b> — golden images built with Packer; configuration and state managed by SaltStack for reproducible nodes.</li>
+          <li><b>Job flow</b> — batch submission with a batch-to-GUI bridge, plus automated file transfer in and out.</li>
+          <li><b>Identity</b> — AD logins map straight to cluster accounts, so users hit no friction.</li>
+        </ol>
+        <div class="kb-note">Generic reference — no site, project, or workload specifics.</div>
+        <div class="kb-tags"><span class="tag">HPC</span><span class="tag">PBS Pro</span><span class="tag">NVIDIA GPU</span><span class="tag">SaltStack</span><span class="tag">Packer</span><span class="tag">SSSD / Kerberos</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== REPOS ===== -->
 <section id="repos">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="sec-idx">04</span>
+      <span class="sec-idx">06</span>
       <span class="sec-title">Open-source &amp; repos</span>
       <span class="sec-line"></span>
     </div>
@@ -470,6 +775,21 @@
   document.querySelectorAll('.reveal').forEach((el,i)=>{
     el.style.transitionDelay=(i%4*60)+'ms';
     io.observe(el);
+  });
+
+  // knowledge base: tab filter + accordion
+  document.querySelectorAll('.kb-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.kb-tab').forEach(function(t){t.classList.remove('active');});
+      tab.classList.add('active');
+      var cat=tab.dataset.cat;
+      document.querySelectorAll('.kb-card').forEach(function(card){
+        card.classList.toggle('hidden', !(cat==='all' || card.dataset.cat===cat));
+      });
+    });
+  });
+  document.querySelectorAll('.kb-head').forEach(function(h){
+    h.addEventListener('click',function(){ h.parentElement.classList.toggle('open'); });
   });
 </script>
 </body>
